@@ -1,0 +1,26 @@
+{
+  "name": "authbackenddummy",
+  "version": "1.0.0",
+  "description": "A dummy app for authentication mock",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "AuthenticationPractice"
+  },
+  "author": "supracoder",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "config": "^5.0.1",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.1"
+  }
+}
