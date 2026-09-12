@@ -45,7 +45,7 @@ app.post("/login",(req,res)=>{
 
 app.post("/login",(req,res)=>{
     const {username, password} = req.body
-    if(username == "vilen" && password == "1234" )
+    if(username == "user" && password == "1234" )
     {
         res.status(200)
         res.cookie("refreshToken",1234,{
