@@ -1,18 +1,23 @@
-import { createContext, useContext,type ReactNode, useState } from "react";
+import { createContext, useContext,type ReactNode, useState, type SetStateAction, type Dispatch } from "react";
 
-// 1. Interface (Using PascalCase convention)
 interface UserInfo {
-  username: string;
-  accessToken: string;
+  username: string|null;
+  accessToken: string|null;
 }
 
-// 2. Initial state setup
+// 1. Create a new interface that describes the full Context structure
+interface UserContextType {
+  user: UserInfo;
+  setUser: Dispatch<SetStateAction<UserInfo>>; // Types the useState setter function
+}
+
 const defaultUser: UserInfo = {
-  username: "notFound",
-  accessToken: "notFound"
+  username: null,
+  accessToken: null
 };
 
-const UserContext = createContext<UserInfo>(defaultUser);
+// 2. Initialize the context with the new type (allowing undefined initially is safest here)
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // 3. Typed Context Provider Component
 interface ProviderProps {
@@ -24,7 +29,7 @@ const UserContextProvider = ({ children }: ProviderProps) => {
   const [user, setUser] = useState<UserInfo>(defaultUser);
 
   return (
-    <UserContext.Provider value={user}>        
+    <UserContext.Provider value={{user,setUser}}>        
       {children}
     </UserContext.Provider>        
   );
@@ -32,7 +37,7 @@ const UserContextProvider = ({ children }: ProviderProps) => {
 
 // 4. Custom Hook to consume the context inside components
 const useUser = () => {
-  return useContext(UserContext);
+  return useContext<UserContextType | undefined>(UserContext);
 };
 
 export { UserContextProvider, useUser };

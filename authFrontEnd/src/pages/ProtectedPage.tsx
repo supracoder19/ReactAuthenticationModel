@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useUser } from '../utility/UserContext'
 
 
 
 const ProtectedPage: React.FC = () => {
+  const userDetails = useUser();
+  useEffect(() => {
+  userDetails?.setUser(prev=>(
+    {
+      ...prev,
+      username:"user",
+      accessToken:"hello"
+    }
+  ))
+  }, [])
+  useEffect(() => {
+  console.log(userDetails?.user)
+  }, [userDetails?.user])
   return (
     <div className="min-h-screen w-full bg-zinc-950 text-zinc-100 flex flex-col">
       {/* Top Navigation Bar */}
