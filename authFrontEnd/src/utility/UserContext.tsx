@@ -1,8 +1,11 @@
 import { createContext, useContext,type ReactNode, useState, type SetStateAction, type Dispatch } from "react";
+import {publicApiClient} from "./AxiosClients";
+import { useNavigate } from "react-router";
 
 interface UserInfo {
   username: string|null;
   accessToken: string|null;
+  logout: (navigate : any)=>void;
 }
 
 // 1. Create a new interface that describes the full Context structure
@@ -13,7 +16,17 @@ interface UserContextType {
 
 const defaultUser: UserInfo = {
   username: null,
-  accessToken: null
+  accessToken: null,
+  logout:async (navigate)=>{
+    try {
+      await publicApiClient.post("/logout")
+    } catch (error) {
+      console.log(error)
+    }
+    finally{
+      navigate("/")
+    }
+  }
 };
 
 // 2. Initialize the context with the new type (allowing undefined initially is safest here)

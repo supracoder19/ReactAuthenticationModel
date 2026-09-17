@@ -1,22 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../utility/UserContext'
+import { useNavigate } from 'react-router';
+import { useAxiosPrivate } from '../utility/useAxiosHook';
 
 
 
 const ProtectedPage: React.FC = () => {
   const userDetails = useUser();
-  useEffect(() => {
-  userDetails?.setUser(prev=>(
-    {
-      ...prev,
-      username:"user",
-      accessToken:"hello"
+  const [msg, setMsg] = useState<string>("not found");
+  const navigate = useNavigate()
+  const privateAxios =  useAxiosPrivate()
+  const initiate = async ()=>{
+    try {
+     const res = await privateAxios.get("/protectedRoute");
+     setMsg(res.data.msg)
+    } catch (error) {
+      console.log(error)
     }
-  ))
-  }, [])
+  }
   useEffect(() => {
-  console.log(userDetails?.user)
-  }, [userDetails?.user])
+    initiate()
+  }, [])
   return (
     <div className="min-h-screen w-full bg-zinc-950 text-zinc-100 flex flex-col">
       {/* Top Navigation Bar */}
@@ -26,11 +30,12 @@ const ProtectedPage: React.FC = () => {
           <a href='https://github.com/supracoder19' target="_blank" className="font-semibold text-sm tracking-wide text-zinc-200 hover:underline cursor-pointer">
             Vist Me supracoder19
           </a>
+          <span>protected msg:  {msg}</span>
         </div>
 
         {/* Logout Button in top right */}
         <button
-          onClick={()=>{}}
+          onClick={()=>{userDetails?.user?.logout(navigate)}}
           type="button"
           className=" cursor-pointer rounded-lg bg-zinc-800 hover:bg-red-700 px-4 py-2 text-xs font-medium text-zinc-200 border border-zinc-700 transition active:scale-95 flex items-center gap-2"
         >

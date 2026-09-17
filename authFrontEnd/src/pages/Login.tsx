@@ -1,12 +1,20 @@
 import { useState, type SubmitEvent } from 'react'
+import { publicApiClient } from '../utility/AxiosClients'
+import { useNavigate } from 'react-router'
 
 const Login = () => {
-  const [email, setEmail] = useState<string>('')
+  const [username, setUserName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const navigate = useNavigate()
 
-  const handleSubmit = ( e: SubmitEvent ) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault()
-    
+    try {
+      const response = await publicApiClient.post("/login",{username, password})
+      navigate("/protected")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -19,16 +27,16 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5" htmlFor="email">
+            <label className="block text-xs font-medium text-zinc-300 mb-1.5" htmlFor="userName">
               Username
             </label>
             <input
-              id="email"
-              type="email"
+              id="userName"
+              type="name"
               required
               placeholder="username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
               className="w-full rounded-lg bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-100 border border-zinc-800 outline-none transition focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-zinc-600"
             />
           </div>
@@ -38,7 +46,7 @@ const Login = () => {
               <label className="text-xs font-medium text-zinc-300" htmlFor="password">
                 Password
               </label>
-              <button onClick={()=>{alert(`user name is ${"user"} and password is ${"1234"}`)}} className="text-xs text-indigo-400 hover:text-indigo-300 transition">
+              <button onClick={() => { alert(`user name is ${"user"} and password is ${"1234"}`) }} className="text-xs text-indigo-400 hover:text-indigo-300 transition">
                 Forgot?
               </button>
             </div>
@@ -61,7 +69,7 @@ const Login = () => {
           </button>
         </form>
 
-       
+
       </div>
     </div>
   )
