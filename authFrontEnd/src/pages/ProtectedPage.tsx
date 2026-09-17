@@ -18,7 +18,7 @@ const ProtectedPage: React.FC = () => {
         <button
           onClick={()=>{}}
           type="button"
-          className=" cursor-pointer rounded-lg bg-zinc-800 hover:bg-zinc-700 px-4 py-2 text-xs font-medium text-zinc-200 border border-zinc-700 transition active:scale-95 flex items-center gap-2"
+          className=" cursor-pointer rounded-lg bg-zinc-800 hover:bg-red-700 px-4 py-2 text-xs font-medium text-zinc-200 border border-zinc-700 transition active:scale-95 flex items-center gap-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
