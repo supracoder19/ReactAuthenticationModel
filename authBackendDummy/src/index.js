@@ -34,7 +34,7 @@ app.post("/login",(req,res)=>{
             secure:false
         })
         res.send({msg:"authorized",
-            accessToken:"Bearer 9999"
+            accessToken:"Bearer "+Date.now()
         })
     }
     else{
@@ -70,7 +70,7 @@ app.post("/refresh",(req,res)=>{
         res.status(200)
         res.send({
             msg: "authorized",
-            accessToken: "Bearer 9999",
+            accessToken: "Bearer "+Date.now(),
             username:"user"
         })
     }
@@ -108,7 +108,8 @@ app.post("/logout",(req,res)=>{
 
 app.get("/protectedRoute",(req,res)=>{
     const {authorization} = req.headers
-    if(authorization == "Bearer 9999")
+    const expTime = Number(authorization.replace("Bearer ",""))
+    if(Date.now()-600000<=expTime && expTime<=Date.now())
     {
         res.status(200).json({
             msg:"hello user"
